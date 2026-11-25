@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101114">
+  <title>SIMON AI</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="logo">S</div>
+    <h1>SIMON AI</h1>
+    <p>Your personal AI assistant.</p>
+    <div id="googleButton"></div>
+    <p class="muted">Sign in with Google to continue.</p>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="logo small">S</div>
+      <b>SIMON AI</b>
+      <button id="closeSidebar" class="mobile-close">×</button>
+    </div>
+
+    <button id="newChat" class="new-chat">＋ New chat</button>
+
+    <div class="side-title">YOUR WORKSPACE</div>
+    <button class="side-link" data-view="chats">◈ Chats</button>
+    <button class="side-link" data-view="memory">◉ Memory</button>
+    <button class="side-link" data-view="files">▧ Files</button>
+    <button class="side-link" data-view="api">⌘ API</button>
+
+    <div class="side-title">RECENT CHATS</div>
+    <div id="chatList" class="chat-list"></div>
+
+    <div class="profile">
+      <div class="avatar" id="avatar">S</div>
+      <div class="profile-info">
+        <b id="userName">User</b>
+        <small id="userEmail"></small>
+      </div>
+      <button id="logout" title="Logout">↪</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <button id="openSidebar" class="menu-btn">☰</button>
+      <b id="pageTitle">SIMON AI</b>
+      <button id="themeToggle">☼</button>
+    </header>
+
+    <section id="chatView" class="view">
+      <div id="messages" class="messages">
+        <div class="welcome" id="welcome">
+          <div class="welcome-logo">S</div>
+          <h1>What can I help you with?</h1>
+          <p>Ask anything. Let's create something amazing.</p>
+          <div class="suggestions">
+            <button class="suggestion">Write JavaScript code</button>
+            <button class="suggestion">Explain artificial intelligence</button>
+            <button class="suggestion">Create a website</button>
+            <button class="suggestion">Help me learn Python</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="composer-wrap">
+        <div class="attachment-preview" id="attachmentPreview"></div>
+        <div class="composer">
+          <input type="file" id="fileInput" hidden>
+          <button id="uploadButton" title="Upload file">＋</button>
+          <textarea id="prompt" rows="1" placeholder="Message SIMON AI..."></textarea>
+          <button id="sendButton" class="send">↑</button>
+        </div>
+        <p class="disclaimer">SIMON AI can make mistakes. Verify important information.</p>
+      </div>
+    </section>
+
+    <section id="memoryView" class="view hidden">
+      <div class="panel">
+        <h2>My Memory</h2>
+        <p>Save useful details that SIMON AI can use in future chats.</p>
+        <textarea id="memoryInput" placeholder="Write something to remember..."></textarea>
+        <button id="saveMemory" class="primary">Save memory</button>
+        <div id="memoryList"></div>
+      </div>
+    </section>
+
+    <section id="filesView" class="view hidden">
+      <div class="panel">
+        <h2>My Files</h2>
+        <p>Upload supported text and code files from your device.</p>
+        <button id="fileManagerUpload" class="primary">＋ Upload a file</button>
+        <div id="fileList"></div>
+      </div>
+    </section>
+
+    <section id="apiView" class="view hidden">
+      <div class="panel">
+        <h2>SIMON API</h2>
+        <p>Use your own authenticated API endpoint.</p>
+        <code>/api/health</code>
+        <p>Private chat endpoints require Google authentication.</p>
+        <button id="apiTest" class="primary">Test API</button>
+        <pre id="apiResult"></pre>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script type="module" src="/script.js"></script>
+</body>
+  </html>
+                               
