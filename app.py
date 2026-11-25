@@ -1,4 +1,3 @@
-
 import os
 from flask import Flask, send_from_directory, jsonify
 
@@ -30,6 +29,9 @@ def home():
 
 @app.route("/<path:filename>")
 def frontend_files(filename):
+    # Don't catch /api routes
+    if filename.startswith("api/"):
+        return jsonify({"error": "Not found"}), 404
     return send_from_directory("frontend", filename)
 
 @app.route("/login_and_sign_up/<path:filename>")
@@ -38,13 +40,17 @@ def login_files(filename):
 
 @app.route("/apk/<path:filename>")
 def apk_files(filename):
-    return send_from_directory("Apk", filename)
+    # Fix case: folder na "Apk" for repo, but URL na "/apk"
+    # Try both so e no 404 for Render (Linux na case-sensitive)
+    for folder in ["Apk", "apk", "APK"]:
+        path = os.path.join(folder, filename)
+        if os.path.exists(path):
+            return send_from_directory(folder, filename)
+    return jsonify({"error": "APK not found"}), 404
 
 @app.route("/site")
 def landing_page():
-    return send_from_directory(
-        "simon.site/site", "index.html"
-    )
+    return send_from_directory("simon.site/site", "index.html")
 
 @app.route("/api/health")
 def health():
@@ -58,9 +64,17 @@ def health():
 def too_large(error):
     return jsonify({"error": "File too large"}), 413
 
+@app.errorhandler(404)
+def not_found(error):
+    # If na API, return JSON. If na frontend, return index.html
+    from flask import request
+    if request.path.startswith("/api/"):
+        return jsonify({"error": "Not found"}), 404
+    try:
+        return send_from_directory("frontend", "index.html")
+    except:
+        return jsonify({"error": "Not found"}), 404
+
 if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 3000))
-    )
-    
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
