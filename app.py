@@ -46,4 +46,5 @@ if __name__ == "__main__":
         host="0.0.0.0",
         port=int(os.environ.get("PORT", 3000))
 )
-  
+  from backend.account import account_bp
+app.register_blueprint(account_bp, url_prefix="/api")
